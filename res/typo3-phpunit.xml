@@ -1,0 +1,22 @@
+<phpunit backupGlobals="true"
+         backupStaticAttributes="false"
+         bootstrap="typo3/sysext/core/Build/UnitTestsBootstrap.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertWarningsToExceptions="true"
+         forceCoversAnnotation="false"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         verbose="false">
+     <testsuites>
+          <testsuite name="EXT:theme">
+               <directory>typo3conf/ext/theme/Tests/Unit/</directory>
+          </testsuite>
+          <testsuite name="EXT:news">
+               <directory>typo3conf/ext/news/Tests/Unit/</directory>
+          </testsuite>
+     </testsuites>
+</phpunit>

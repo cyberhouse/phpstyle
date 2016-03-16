@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<ruleset name="Cyberhouse">
+    <description>Cyberhouse PHP Codestyle</description>
+
+    <!-- Exclude third party modules -->
+    <exclude-pattern>*/typo3/*</exclude-pattern>
+    <exclude-pattern>*/typo3_src/*</exclude-pattern>
+    <exclude-pattern>*/typo3_console/*</exclude-pattern>
+    <exclude-pattern>*/news/*</exclude-pattern>
+    <exclude-pattern>*/realurl/*</exclude-pattern>
+    <exclude-pattern>*/vc/*</exclude-pattern>
+    <exclude-pattern>*/formhandler/*</exclude-pattern>
+    <exclude-pattern>*/address/*</exclude-pattern>
+    <exclude-pattern>*/storelocator/*</exclude-pattern>
+
+    <!-- Exclude not PHP directories -->
+    <exclude-pattern>*/l10n/*</exclude-pattern>
+    <exclude-pattern>*/Resources/Private/*</exclude-pattern>
+    <exclude-pattern>*/Resources/Public/*</exclude-pattern>
+
+    <!-- Exclude generated code -->
+    <exclude-pattern>*/PackageStates.php</exclude-pattern>
+    <exclude-pattern>*/typo3temp/*</exclude-pattern>
+    <exclude-pattern>*/fileadmin/*</exclude-pattern>
+
+    <rule ref="PSR2" />
+
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
+    <rule ref="Generic.Formatting.SpaceAfterCast"/>
+    <rule ref="Generic.NamingConventions.ConstructorName"/>
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+</ruleset>

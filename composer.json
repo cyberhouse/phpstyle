@@ -1,0 +1,29 @@
+{
+  "name": "cyberhouse/phpstyle",
+  "description": "Common utilities for unit testing and checking PHP Code Style required by Cyberhouse",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Georg Großberger",
+      "email": "georg.grossberger@cyberhouse.at"
+    }
+  ],
+  "bin": [
+    "bin/phpstyle"
+  ],
+  "autoload": {
+    "psr-4": {
+      "Cyberhouse\\Phpstyle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Cyberhouse\\Phpstyle\\Test\\": "tests/"
+    }
+  },
+  "require": {
+    "fabpot/php-cs-fixer": "^v1.11",
+    "squizlabs/php_codesniffer": "^2.5",
+    "phpunit/phpunit": "^4.8"
+  }
+}

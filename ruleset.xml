@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ruleset name="Cyberhouse">
+    <description>Cyberhouse PHP Codestyle</description>
+
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/tests/Fixtures/*</exclude-pattern>
+
+    <rule ref="PSR2" />
+
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
+    <rule ref="Generic.Formatting.SpaceAfterCast" />
+    <rule ref="Generic.NamingConventions.ConstructorName" />
+    <rule ref="Generic.PHP.DeprecatedFunctions" />
+</ruleset>

@@ -1,0 +1,118 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * (c) 2016 by Cyberhouse GmbH
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
+$args = isset($_SERVER['argv']) ? $_SERVER['argv'] : $argv;
+array_shift($args);
+
+if (count($args) > 0) {
+    switch (array_shift($args)) {
+        case 'init':
+            $prefix  = trim(count($args) > 0 ? array_shift($args) : 'generic', '-') . '-';
+            $fromdir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'res' . DIRECTORY_SEPARATOR;
+            $toDir   = getcwd() . DIRECTORY_SEPARATOR;
+            $files   = [
+                '.php_cs',
+                'ruleset.xml',
+                'phpunit.xml',
+            ];
+
+            foreach ($files as $file) {
+                if (!is_file($fromdir . $prefix . $file)) {
+                    fwrite(STDOUT, 'Cannot find sources for ' . $prefix . PHP_EOL);
+                    exit(1);
+                }
+                copy($fromdir . $prefix . $file, $toDir . $file);
+            }
+
+            exit(0);
+            break;
+
+        case 'test':
+            run('phpunit', '-c {d}/phpunit.xml');
+            break;
+
+        case 'lint':
+            run('phpcs', '--colors -p --standard={d}/ruleset.xml --extensions=php --severity=1 {d}');
+            exit(0);
+            break;
+
+        case 'check':
+            run('phpunit', '-c {d}/phpunit.xml');
+            run('phpcs', '--colors -p --standard={d}/ruleset.xml --extensions=php --severity=1 {d}');
+            exit(0);
+            break;
+
+        case 'fix':
+            run('php-cs-fixer', 'fix --config-file={d}/.php_cs');
+            run('phpcbf', '--colors -p --standard={d}/ruleset.xml --extensions=php --severity=1 {d}');
+            exit(0);
+            break;
+    }
+}
+
+echo 'Unkown command, use one of: ' . PHP_EOL;
+echo '    init   Initialize linter and tester configs' . PHP_EOL;
+echo '    test   Run tester (phpunit)' . PHP_EOL;
+echo '    lint   Run linter (phpcs)' . PHP_EOL;
+echo '    check  Run tester and linter' . PHP_EOL;
+echo '    fix    Run style fixers (php-cs-fixer & phpcbf)' . PHP_EOL;
+exit(1);
+
+function run($cmd, $args)
+{
+    $comp = getenv('HOME') . DIRECTORY_SEPARATOR . '.composer' . DIRECTORY_SEPARATOR;
+    $args = str_replace('{d}', getcwd(), $args);
+    $dir  = '';
+    $dirs = [
+        getcwd() . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR,
+        getcwd() . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR,
+        $comp . 'bin' . DIRECTORY_SEPARATOR,
+        $comp . 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR,
+    ];
+
+    foreach ($dirs as $possibleDir) {
+        if (is_file($possibleDir . $cmd)) {
+            $dir = $possibleDir;
+        }
+    }
+
+    if (!is_dir($dir)) {
+        echo 'Command ' . $cmd . ' not found';
+        exit(1);
+    }
+
+    $proc = proc_open($cmd . ' ' . $args, [
+        1 => ['pipe', 'w'],
+        2 => ['pipe', 'w'],
+    ], $pipes);
+
+    $stdout = stream_get_contents($pipes[1]);
+    fclose($pipes[1]);
+
+    $stderr = stream_get_contents($pipes[2]);
+    fclose($pipes[2]);
+
+    $code = proc_close($proc);
+
+    if (trim($stdout) !== '') {
+        fwrite(STDOUT, $stdout);
+    }
+
+    if (trim($stderr) !== '') {
+        fwrite(STDERR, $stderr);
+    }
+
+    if ($code > 0) {
+        exit($code);
+    }
+}
