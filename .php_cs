@@ -12,6 +12,7 @@
 
 use Cyberhouse\Phpstyle\Fixer\LowerHeaderCommentFixer;
 use Cyberhouse\Phpstyle\Fixer\NamespaceFirstFixer;
+use Cyberhouse\Phpstyle\Fixer\SingleEmptyLineFixer;
 use Symfony\CS\Config\Config;
 use Symfony\CS\Finder\DefaultFinder;
 use Symfony\CS\FixerInterface;
@@ -77,4 +78,5 @@ return Config::create()
     ])
     ->addCustomFixer(new LowerHeaderCommentFixer())
     ->addCustomFixer(new NamespaceFirstFixer())
+    ->addCustomFixer(new SingleEmptyLineFixer())
     ->finder($finder);

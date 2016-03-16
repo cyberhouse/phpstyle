@@ -25,7 +25,7 @@ class NamespaceFirstFixer extends AbstractFixer
 {
     public function getLevel()
     {
-        return FixerInterface::CONTRIB_LEVEL;
+        return FixerInterface::PSR2_LEVEL;
     }
 
     public function fix(\SplFileInfo $file, $content)
