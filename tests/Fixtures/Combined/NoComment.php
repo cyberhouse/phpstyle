@@ -6,6 +6,7 @@ namespace My\Ns;
 
 use \SplFixedArray;
 
+
 /**
  * Some doc block
  */

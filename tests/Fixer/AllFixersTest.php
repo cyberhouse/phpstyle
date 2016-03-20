@@ -3,6 +3,7 @@ namespace Cyberhouse\Phpstyle\Tests\Fixer;
 
 use Cyberhouse\Phpstyle\Fixer\LowerHeaderCommentFixer;
 use Cyberhouse\Phpstyle\Fixer\NamespaceFirstFixer;
+use Cyberhouse\Phpstyle\Fixer\SingleEmptyLineFixer;
 
 /**
  * Test combined fixer calls yield the desired output
@@ -59,6 +60,7 @@ EOF;
         $fixers = [
             new LowerHeaderCommentFixer(),
             new NamespaceFirstFixer(),
+            new SingleEmptyLineFixer(),
         ];
 
         foreach ($fixers as $fixer) {
