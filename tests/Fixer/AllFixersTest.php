@@ -1,6 +1,16 @@
 <?php
 namespace Cyberhouse\Phpstyle\Tests\Fixer;
 
+/*
+ * (c) 2016 by Cyberhouse GmbH
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Cyberhouse\Phpstyle\Fixer\LowerHeaderCommentFixer;
 use Cyberhouse\Phpstyle\Fixer\NamespaceFirstFixer;
 use Cyberhouse\Phpstyle\Fixer\SingleEmptyLineFixer;
