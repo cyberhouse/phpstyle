@@ -41,6 +41,9 @@ $finder = DefaultFinder::create()
 return Config::create()
     ->setUsingCache(true)
     ->level(FixerInterface::PSR2_LEVEL)
+    ->addCustomFixer(new LowerHeaderCommentFixer())
+    ->addCustomFixer(new NamespaceFirstFixer())
+    ->addCustomFixer(new SingleEmptyLineFixer())
     ->fixers([
         '-psr0',
         'encoding',
@@ -76,7 +79,4 @@ return Config::create()
         'phpdoc_scalar',
         'phpdoc_order',
     ])
-    ->addCustomFixer(new LowerHeaderCommentFixer())
-    ->addCustomFixer(new NamespaceFirstFixer())
-    ->addCustomFixer(new SingleEmptyLineFixer())
     ->finder($finder);
