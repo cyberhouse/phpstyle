@@ -8,9 +8,6 @@
       "email": "georg.grossberger@cyberhouse.at"
     }
   ],
-  "bin": [
-    "bin/phpstyle"
-  ],
   "autoload": {
     "psr-4": {
       "Cyberhouse\\Phpstyle\\": "src/"
