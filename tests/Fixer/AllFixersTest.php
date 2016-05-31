@@ -22,20 +22,24 @@ class AllFixersTest extends \PHPUnit_Framework_TestCase
 {
     public function testDataProvider()
     {
-        $sets = [
-            'WrongOrder',
-            'NoComment',
-        ];
-        $dir = __DIR__ . '/../Fixtures/Combined/';
-        $res = [];
-        $exp = file_get_contents($dir . 'Expected.php');
+        $variations = ['', 'NoNs'];
+        $res  = [];
 
-        foreach ($sets as $set) {
-            $res[] = [
-                file_get_contents($dir . $set . '.php'),
-                $exp,
-                $set,
+        foreach ($variations as $variation) {
+            $sets = [
+                'WrongOrder' . $variation,
+                'NoComment' . $variation,
             ];
+            $dir  = __DIR__ . '/../Fixtures/Combined/';
+            $exp  = file_get_contents($dir . 'Expected' . $variation . '.php');
+
+            foreach ($sets as $set) {
+                $res[] = [
+                    file_get_contents($dir . $set . '.php'),
+                    $exp,
+                    $set,
+                ];
+            }
         }
 
         return $res;

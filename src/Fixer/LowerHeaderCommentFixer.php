@@ -70,31 +70,31 @@ class LowerHeaderCommentFixer extends AbstractFixer
         }
 
         $index = 1;
+        $hasNs = false;
 
         for ($i = 1; $i < $tokens->count(); $i++) {
             if ($tokens[$i]->isGivenKind(T_NAMESPACE)) {
+                $hasNs = true;
+
                 while ($tokens[$i]->getContent() !== ';') {
                     $i++;
                 }
                 $i++;
                 $index = $i+1;
-            } elseif (!$tokens[$i]->isWhitespace() && !$tokens[$i]->isComment()) {
+            } elseif (!$tokens[$i]->isWhitespace() && !$tokens[$i]->isGivenKind(T_COMMENT)) {
                 break;
             }
             $tokens[$i]->clear();
         }
 
-        $headCommentTokens = [
-            new Token([T_WHITESPACE, "\n"]),
-        ];
-
         if ('' !== self::$headerComment) {
-            $headCommentTokens[] = new Token([T_WHITESPACE, "\n"]);
-            $headCommentTokens[] = new Token([T_COMMENT, self::$headerComment]);
-            $headCommentTokens[] = new Token([T_WHITESPACE, "\n\n"]);
+            $tokens->insertAt($index, [
+                new Token([T_WHITESPACE, "\n" . ($hasNs ? "\n" : '')]),
+                new Token([T_COMMENT, self::$headerComment]),
+                new Token([T_WHITESPACE, "\n\n"]),
+            ]);
         }
 
-        $tokens->insertAt($index, $headCommentTokens);
         $tokens->clearEmptyTokens();
 
         return $tokens->generateCode();
