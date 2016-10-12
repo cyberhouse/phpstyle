@@ -23,7 +23,6 @@ use Symfony\CS\Tokenizer\Tokens;
  */
 class SingleEmptyLineFixer extends AbstractFixer
 {
-
     public function getLevel()
     {
         return FixerInterface::PSR2_LEVEL;

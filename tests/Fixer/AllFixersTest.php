@@ -23,7 +23,7 @@ class AllFixersTest extends \PHPUnit_Framework_TestCase
     public function testDataProvider()
     {
         $variations = ['', 'NoNs'];
-        $res  = [];
+        $res        = [];
 
         foreach ($variations as $variation) {
             $sets = [

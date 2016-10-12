@@ -11,7 +11,6 @@ namespace Cyberhouse\Phpstyle\Tests\Fixer;
  * <https://opensource.org/licenses/MIT>
  */
 
-use Cyberhouse\Phpstyle\Fixer\SingleEmptyLineFixer;
 use Cyberhouse\Phpstyle\Fixer\StrictTypesFixer;
 
 /**
