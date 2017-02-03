@@ -12,6 +12,7 @@ namespace Cyberhouse\Phpstyle\Tests\Fixer;
  */
 
 use Cyberhouse\Phpstyle\Fixer\NamespaceFirstFixer;
+use PhpCsFixer\Tokenizer\Tokens;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -51,16 +52,13 @@ class NamespaceFirstFixerTest extends TestCase
     {
         $file = $this->getMockBuilder(\SplFileInfo::class)->disableOriginalConstructor()->getMock();
 
-        foreach (get_class_methods(\SplFileInfo::class) as $method) {
-            $file->expects($this->never())->method($method);
-        }
-
+        $actual = Tokens::fromCode($data);
         $fixer = new NamespaceFirstFixer();
-        $actual = $fixer->fix($file, $data);
-        $this->assertSame($expected, $actual, 'Unexpected result for data set ' . $set);
+        $fixer->fix($file, $actual);
+        $this->assertSame($expected, $actual->generateCode(), 'Unexpected result for data set ' . $set);
 
-        $actual = $fixer->fix($file, $actual);
-        $this->assertSame($expected, $actual, 'Corrected data was changed with set ' . $set);
+        $fixer->fix($file, $actual);
+        $this->assertSame($expected, $actual->generateCode(), 'Corrected data was changed with set ' . $set);
     }
 
     public function testNamespaceCorrectDoesNotChangeCode()
@@ -71,13 +69,10 @@ class NamespaceFirstFixerTest extends TestCase
 
         $file = $this->getMockBuilder(\SplFileInfo::class)->disableOriginalConstructor()->getMock();
 
-        foreach (get_class_methods(\SplFileInfo::class) as $method) {
-            $file->expects($this->never())->method($method);
-        }
-
+        $actual = Tokens::fromCode($data);
         $fixer = new NamespaceFirstFixer();
-        $actual = $fixer->fix($file, $data);
+        $fixer->fix($file, $actual);
 
-        $this->assertSame($data, $actual);
+        $this->assertSame($data, $actual->generateCode());
     }
 }

@@ -12,6 +12,7 @@ namespace Cyberhouse\Phpstyle\Tests\Fixer;
  */
 
 use Cyberhouse\Phpstyle\Fixer\SingleEmptyLineFixer;
+use PhpCsFixer\Tokenizer\Tokens;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -51,13 +52,10 @@ class SingleEmptyLineFixerTest extends TestCase
     {
         $file = $this->getMockBuilder(\SplFileInfo::class)->disableOriginalConstructor()->getMock();
 
-        foreach (get_class_methods(\SplFileInfo::class) as $method) {
-            $file->expects($this->never())->method($method);
-        }
-
+        $actual = Tokens::fromCode($src);
         $fixer = new SingleEmptyLineFixer();
-        $actual = $fixer->fix($file, $src);
+        $fixer->fix($file, $actual);
 
-        $this->assertSame($expected, $actual, 'Invalid output for data set ' . $set);
+        $this->assertSame($expected, $actual->generateCode(), 'Invalid output for data set ' . $set);
     }
 }

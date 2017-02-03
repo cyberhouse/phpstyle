@@ -12,6 +12,7 @@ namespace Cyberhouse\Phpstyle\Tests\Fixer;
  */
 
 use Cyberhouse\Phpstyle\Fixer\LowerHeaderCommentFixer;
+use PhpCsFixer\Tokenizer\Tokens;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -62,21 +63,24 @@ EOF;
         $fixer = new LowerHeaderCommentFixer();
         $file = $this->getMockBuilder(\SplFileInfo::class)->disableOriginalConstructor()->getMock();
 
-        foreach (get_class_methods(\SplFileInfo::class) as $method) {
-            $file->expects($this->never())->method($method);
-        }
-
         LowerHeaderCommentFixer::setHeader($header);
 
-        $actual = $fixer->fix($file, $src);
+        $expected = Tokens::fromCode($expected);
+        $actual = Tokens::fromCode($src);
 
-        $this->assertSame($expected, $actual, 'HeaderCommentFixer failed with data set ' . $name);
-
-        $actual = $fixer->fix($file, $actual);
+        $fixer->fix($file, $actual);
 
         $this->assertSame(
-            $expected,
-            $actual,
+            $expected->generateCode(),
+            $actual->generateCode(),
+            'HeaderCommentFixer failed with data set ' . $name
+        );
+
+        $fixer->fix($file, $actual);
+
+        $this->assertSame(
+            $expected->generateCode(),
+            $actual->generateCode(),
             'HeaderCommentFixer changed the output after successful first run with ' . $name
         );
     }

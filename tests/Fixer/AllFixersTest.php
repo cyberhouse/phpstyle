@@ -14,6 +14,7 @@ namespace Cyberhouse\Phpstyle\Tests\Fixer;
 use Cyberhouse\Phpstyle\Fixer\LowerHeaderCommentFixer;
 use Cyberhouse\Phpstyle\Fixer\NamespaceFirstFixer;
 use Cyberhouse\Phpstyle\Fixer\SingleEmptyLineFixer;
+use PhpCsFixer\Tokenizer\Tokens;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class AllFixersTest extends TestCase
 {
-    public function testDataProvider()
+    public function dataProvider()
     {
         $variations = ['', 'NoNs'];
         $res = [];
@@ -47,7 +48,7 @@ class AllFixersTest extends TestCase
     }
 
     /**
-     * @dataProvider testDataProvider
+     * @dataProvider dataProvider
      * @param string $data
      * @param string $expected
      * @param string $set
@@ -65,13 +66,9 @@ class AllFixersTest extends TestCase
 EOF;
         $file = $this->getMockBuilder(\SplFileInfo::class)->disableOriginalConstructor()->getMock();
 
-        foreach (get_class_methods(\SplFileInfo::class) as $method) {
-            $file->expects($this->never())->method($method);
-        }
-
         LowerHeaderCommentFixer::setHeader($header);
 
-        $actual = $data;
+        $actual = Tokens::fromCode($data);
         $fixers = [
             new LowerHeaderCommentFixer(),
             new NamespaceFirstFixer(),
@@ -79,9 +76,9 @@ EOF;
         ];
 
         foreach ($fixers as $fixer) {
-            $actual = $fixer->fix($file, $actual);
+            $fixer->fix($file, $actual);
         }
 
-        $this->assertSame($expected, $actual, 'Unexpected result for data set ' . $set);
+        $this->assertSame($expected, $actual->generateCode(), 'Unexpected result for data set ' . $set);
     }
 }
