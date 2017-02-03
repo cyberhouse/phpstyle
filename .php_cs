@@ -13,9 +13,8 @@
 use Cyberhouse\Phpstyle\Fixer\LowerHeaderCommentFixer;
 use Cyberhouse\Phpstyle\Fixer\NamespaceFirstFixer;
 use Cyberhouse\Phpstyle\Fixer\SingleEmptyLineFixer;
-use Symfony\CS\Config\Config;
-use Symfony\CS\Finder\DefaultFinder;
-use Symfony\CS\FixerInterface;
+use PhpCsFixer\Config;
+use Symfony\Component\Finder\Finder;
 
 if (PHP_SAPI !== 'cli') {
     die('Nope');
@@ -31,7 +30,7 @@ For the full copyright and license information see
 
 LowerHeaderCommentFixer::setHeader($header);
 
-$finder = DefaultFinder::create()
+$finder = Finder::create()
     ->exclude('res')
     ->exclude('vendor')
     ->exclude('tests/Fixtures')
@@ -40,43 +39,52 @@ $finder = DefaultFinder::create()
 
 return Config::create()
     ->setUsingCache(true)
-    ->level(FixerInterface::PSR2_LEVEL)
-    ->addCustomFixer(new LowerHeaderCommentFixer())
-    ->addCustomFixer(new NamespaceFirstFixer())
-    ->addCustomFixer(new SingleEmptyLineFixer())
-    ->fixers([
-        '-psr0',
-        'encoding',
-        'lower_header_comment',
-        'namespace_first',
-        'remove_leading_slash_use',
-        'single_array_no_trailing_comma',
-        'ereg_to_preg',
-        'spaces_before_semicolon',
-        'unused_use',
-        'ordered_use',
-        'concat_with_spaces',
-        'whitespacy_lines',
-        'array_element_no_space_before_comma',
-        'double_arrow_multiline_whitespaces',
-        'no_blank_lines_before_namespace',
-        'namespace_no_leading_whitespace',
-        'native_function_casing',
-        'no_empty_lines_after_phpdocs',
-        'multiline_array_trailing_comma',
-        'spaces_cast',
-        'standardize_not_equal',
-        'align_double_arrow',
-        'align_equals',
-        'short_array_syntax',
-        'single_quote',
-        'extra_empty_lines',
-        'hash_to_slash_comment',
-        'method_argument_default_value',
-        'lowercase_cast',
-        'duplicate_semicolon',
-        'phpdoc_no_package',
-        'phpdoc_scalar',
-        'phpdoc_order',
+    ->registerCustomFixers([
+        new LowerHeaderCommentFixer(),
+        new NamespaceFirstFixer(),
+        new SingleEmptyLineFixer(),
     ])
-    ->finder($finder);
+    ->setRiskyAllowed(true)
+    ->setRules([
+        '@PSR2' => true,
+        'Cyberhouse/lower_header_comment' => true,
+        'Cyberhouse/namespace_first' => true,
+        'Cyberhouse/single_empty_line' => true,
+        'encoding' => true,
+        'cast_spaces' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'combine_consecutive_unsets' => true,
+        'binary_operator_spaces' => [
+            'align_double_arrow' => true,
+            'align_equals' => false,
+        ],
+        'braces' => true,
+        'concat_space' => ['spacing' => 'one'],
+        'declare_equal_normalize' => true,
+        'dir_constant' => true,
+        'ereg_to_preg' => true,
+        'hash_to_slash_comment' => true,
+        'include' => true,
+        'line_ending' => true,
+        'lowercase_cast' => true,
+        'mb_str_functions' => true,
+        'modernize_types_casting' => true,
+        'native_function_casing' => true,
+        'new_with_braces' => true,
+        'no_leading_import_slash' => true,
+        'no_php4_constructor' => true,
+        'no_trailing_comma_in_singleline_array' => true,
+        'no_unused_imports' => true,
+        'no_useless_else' => true,
+        'ordered_class_elements' => true,
+        'ordered_imports' => true,
+        'psr0' => false,
+        'short_scalar_cast' => true,
+        'single_quote' => true,
+        'standardize_not_equals' => true,
+        'strict_comparison' => true,
+        'phpdoc_no_package' => true,
+        'phpdoc_scalar' => true,
+        'phpdoc_order' => true,
+    ])
+    ->setFinder($finder);

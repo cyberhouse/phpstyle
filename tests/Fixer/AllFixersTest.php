@@ -2,7 +2,7 @@
 namespace Cyberhouse\Phpstyle\Tests\Fixer;
 
 /*
- * (c) 2016 by Cyberhouse GmbH
+ * (c) 2017 by Cyberhouse GmbH
  *
  * This is free software; you can redistribute it and/or
  * modify it under the terms of the MIT License (MIT)
@@ -14,24 +14,25 @@ namespace Cyberhouse\Phpstyle\Tests\Fixer;
 use Cyberhouse\Phpstyle\Fixer\LowerHeaderCommentFixer;
 use Cyberhouse\Phpstyle\Fixer\NamespaceFirstFixer;
 use Cyberhouse\Phpstyle\Fixer\SingleEmptyLineFixer;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test combined fixer calls yield the desired output
  */
-class AllFixersTest extends \PHPUnit_Framework_TestCase
+class AllFixersTest extends TestCase
 {
     public function testDataProvider()
     {
         $variations = ['', 'NoNs'];
-        $res        = [];
+        $res = [];
 
         foreach ($variations as $variation) {
             $sets = [
                 'WrongOrder' . $variation,
                 'NoComment' . $variation,
             ];
-            $dir  = __DIR__ . '/../Fixtures/Combined/';
-            $exp  = file_get_contents($dir . 'Expected' . $variation . '.php');
+            $dir = __DIR__ . '/../Fixtures/Combined/';
+            $exp = file_get_contents($dir . 'Expected' . $variation . '.php');
 
             foreach ($sets as $set) {
                 $res[] = [
@@ -62,7 +63,7 @@ class AllFixersTest extends \PHPUnit_Framework_TestCase
             For the full copyright and license information see
             <http://www.apache.org/licenses/LICENSE-2.0>
 EOF;
-        $file  = $this->getMockBuilder(\SplFileInfo::class)->disableOriginalConstructor()->getMock();
+        $file = $this->getMockBuilder(\SplFileInfo::class)->disableOriginalConstructor()->getMock();
 
         foreach (get_class_methods(\SplFileInfo::class) as $method) {
             $file->expects($this->never())->method($method);

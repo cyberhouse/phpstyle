@@ -2,7 +2,7 @@
 namespace Cyberhouse\Phpstyle\Fixer;
 
 /*
- * (c) 2016 by Cyberhouse GmbH
+ * (c) 2017 by Cyberhouse GmbH
  *
  * This is free software; you can redistribute it and/or
  * modify it under the terms of the MIT License (MIT)
@@ -11,9 +11,7 @@ namespace Cyberhouse\Phpstyle\Fixer;
  * <https://opensource.org/licenses/MIT>
  */
 
-use Symfony\CS\AbstractFixer;
-use Symfony\CS\FixerInterface;
-use Symfony\CS\Tokenizer\Tokens;
+use PhpCsFixer\Tokenizer\Tokens;
 
 /**
  * Ensures there a no consecutive empty lines
@@ -21,20 +19,13 @@ use Symfony\CS\Tokenizer\Tokens;
  * @author Georg Großberger <georg.grossberger@cyberhouse.at>
  * @copyright (c) 2016 by Cyberhouse GmbH <www.cyberhouse.at>
  */
-class SingleEmptyLineFixer extends AbstractFixer
+class SingleEmptyLineFixer extends BaseFixer
 {
-    public function getLevel()
+    public function fix(\SplFileInfo $file, Tokens $tokens)
     {
-        return FixerInterface::PSR2_LEVEL;
-    }
-
-    public function fix(\SplFileInfo $file, $content)
-    {
-        $tokens  = Tokens::fromCode($content);
-
         for ($i = 0; $i < $tokens->count(); $i++) {
             if ($tokens[$i]->isGivenKind(T_WHITESPACE)) {
-                if (strpos($tokens[$i]->getContent(), "\n") !== false) {
+                if (mb_strpos($tokens[$i]->getContent(), "\n") !== false) {
                     $content = explode("\n", $tokens[$i]->getContent());
 
                     if (count($content) > 3) {
@@ -48,10 +39,5 @@ class SingleEmptyLineFixer extends AbstractFixer
 
         $tokens->clearEmptyTokens();
         return $tokens->generateCode();
-    }
-
-    public function getDescription()
-    {
-        return 'Single empty lines fixer';
     }
 }

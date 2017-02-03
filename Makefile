@@ -1,11 +1,11 @@
 default: vendor/autoload.php
 
 test: vendor/autoload.php
-	./vendor/bin/php-cs-fixer fix --dry-run --config-file=.php_cs
+	./vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php_cs
 	./vendor/bin/phpunit -c phpunit.xml tests/
 
 fix: composer.phar
-	./vendor/bin/php-cs-fixer fix --config-file=.php_cs
+	./vendor/bin/php-cs-fixer fix --config=.php_cs
 
 vendor/autoload.php: composer.phar
 	php composer.phar install -o

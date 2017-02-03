@@ -2,7 +2,7 @@
 namespace Cyberhouse\Phpstyle\Tests\Fixer;
 
 /*
- * (c) 2016 by Cyberhouse GmbH
+ * (c) 2017 by Cyberhouse GmbH
  *
  * This is free software; you can redistribute it and/or
  * modify it under the terms of the MIT License (MIT)
@@ -12,6 +12,7 @@ namespace Cyberhouse\Phpstyle\Tests\Fixer;
  */
 
 use Cyberhouse\Phpstyle\Fixer\NamespaceFirstFixer;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Check if namespace_first fixer always puts the namespace on top
@@ -19,7 +20,7 @@ use Cyberhouse\Phpstyle\Fixer\NamespaceFirstFixer;
  * @author Georg Großberger <georg.grossberger@cyberhouse.at>
  * @copyright (c) 2016 by Cyberhouse GmbH <www.cyberhouse.at>
  */
-class NamespaceFirstFixerTest extends \PHPUnit_Framework_TestCase
+class NamespaceFirstFixerTest extends TestCase
 {
     /**
      * @return array
@@ -27,8 +28,8 @@ class NamespaceFirstFixerTest extends \PHPUnit_Framework_TestCase
     public function namespaceDataProvider()
     {
         $result = [];
-        $sets   = ['NamespaceAfterComment', 'NamespaceFirst', 'NamespaceNoClass'];
-        $dir    = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR .
+        $sets = ['NamespaceAfterComment', 'NamespaceFirst', 'NamespaceNoClass'];
+        $dir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR .
                   'Fixtures' . DIRECTORY_SEPARATOR . 'NamespaceFixer' . DIRECTORY_SEPARATOR;
 
         foreach ($sets as $set) {
@@ -54,7 +55,7 @@ class NamespaceFirstFixerTest extends \PHPUnit_Framework_TestCase
             $file->expects($this->never())->method($method);
         }
 
-        $fixer  = new NamespaceFirstFixer();
+        $fixer = new NamespaceFirstFixer();
         $actual = $fixer->fix($file, $data);
         $this->assertSame($expected, $actual, 'Unexpected result for data set ' . $set);
 
@@ -64,7 +65,7 @@ class NamespaceFirstFixerTest extends \PHPUnit_Framework_TestCase
 
     public function testNamespaceCorrectDoesNotChangeCode()
     {
-        $dir  = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR .
+        $dir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR .
                  'Fixtures' . DIRECTORY_SEPARATOR . 'NamespaceFixer' . DIRECTORY_SEPARATOR;
         $data = file_get_contents($dir . 'NamespaceCorrect.php');
 
@@ -74,7 +75,7 @@ class NamespaceFirstFixerTest extends \PHPUnit_Framework_TestCase
             $file->expects($this->never())->method($method);
         }
 
-        $fixer  = new NamespaceFirstFixer();
+        $fixer = new NamespaceFirstFixer();
         $actual = $fixer->fix($file, $data);
 
         $this->assertSame($data, $actual);
