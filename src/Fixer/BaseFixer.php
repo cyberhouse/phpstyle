@@ -11,23 +11,57 @@ namespace Cyberhouse\Phpstyle\Fixer;
  * <https://opensource.org/licenses/MIT>
  */
 
-use PhpCsFixer\AbstractFixer;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tokenizer\Tokens;
+use PhpCsFixer\Utils;
 
 /**
  * Base for custom fixers
  *
  * @author Georg Großberger <georg.grossberger@cyberhouse.at>
  */
-abstract class BaseFixer extends AbstractFixer
+abstract class BaseFixer implements FixerInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function isCandidate(Tokens $tokens)
     {
         return $tokens->isMonolithicPhp();
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function isRisky()
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPriority()
+    {
+        return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supports(\SplFileInfo $file)
+    {
+        return $file->getExtension() === 'php';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
-        return 'Cyberhouse/' . parent::getName();
+        $nameParts = explode('\\', get_called_class());
+        $name = mb_substr(end($nameParts), 0, -mb_strlen('Fixer'));
+
+        return 'Cyberhouse/' . Utils::camelCaseToUnderscore($name);
     }
 }
