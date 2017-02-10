@@ -38,6 +38,5 @@ class SingleEmptyLineFixer extends BaseFixer
         }
 
         $tokens->clearEmptyTokens();
-        return $tokens->generateCode();
     }
 }
