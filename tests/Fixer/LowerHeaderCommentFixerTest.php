@@ -2,9 +2,9 @@
 namespace Cyberhouse\Phpstyle\Tests\Fixer;
 
 /*
- * (c) 2017 by Cyberhouse GmbH
+ * This file is (c) 2017 by Cyberhouse GmbH
  *
- * This is free software; you can redistribute it and/or
+ * It is free software; you can redistribute it and/or
  * modify it under the terms of the MIT License (MIT)
  *
  * For the full copyright and license information see

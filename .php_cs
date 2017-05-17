@@ -1,9 +1,9 @@
 <?php
 
 /*
- * (c) 2016 by Cyberhouse GmbH
+ * This file is (c) 2016 by Cyberhouse GmbH
  *
- * This is free software; you can redistribute it and/or
+ * It is free software; you can redistribute it and/or
  * modify it under the terms of the MIT License (MIT)
  *
  * For the full copyright and license information see
@@ -20,9 +20,9 @@ if (PHP_SAPI !== 'cli') {
     die('Nope');
 }
 
-$header = '(c) ' . date('Y') . ' by Cyberhouse GmbH
+$header = 'This file is (c) ' . date('Y') . ' by Cyberhouse GmbH
 
-This is free software; you can redistribute it and/or
+It is free software; you can redistribute it and/or
 modify it under the terms of the MIT License (MIT)
 
 For the full copyright and license information see
